@@ -1,0 +1,100 @@
+{
+  "nodeWithPortPoints": [
+    {
+      "capacityMeshNodeId": "topology_merge_4309",
+      "center": {
+        "x": -18.5,
+        "y": -11.900000000000006
+      },
+      "width": 0.600000000000005,
+      "height": 0.6000000000000014,
+      "portPoints": [
+        {
+          "portPointId": "ce13077_pp0_z0::0",
+          "x": -18.800000000000004,
+          "y": -11.900000000000006,
+          "z": 0,
+          "connectionName": "source_trace_11",
+          "rootConnectionName": "source_trace_11",
+          "nextPortPointId": "ce13083_pp0_z1::1"
+        },
+        {
+          "portPointId": "ce13083_pp0_z1::1",
+          "x": -18.800000000000004,
+          "y": -11.900000000000006,
+          "z": 1,
+          "connectionName": "source_trace_11",
+          "rootConnectionName": "source_trace_11",
+          "prevPortPointId": "ce13077_pp0_z0::0"
+        }
+      ],
+      "portPointsInPairs": [
+        [
+          {
+            "portPointId": "ce13077_pp0_z0::0",
+            "x": -18.800000000000004,
+            "y": -11.900000000000006,
+            "z": 0,
+            "connectionName": "source_trace_11",
+            "rootConnectionName": "source_trace_11",
+            "nextPortPointId": "ce13083_pp0_z1::1"
+          },
+          {
+            "portPointId": "ce13083_pp0_z1::1",
+            "x": -18.800000000000004,
+            "y": -11.900000000000006,
+            "z": 1,
+            "connectionName": "source_trace_11",
+            "rootConnectionName": "source_trace_11",
+            "prevPortPointId": "ce13077_pp0_z0::0"
+          }
+        ]
+      ],
+      "availableZ": [
+        0,
+        1,
+        2,
+        3
+      ]
+    }
+  ],
+  "hdRoutes": [
+    {
+      "connectionName": "source_trace_11",
+      "regionId": "topology_merge_4309",
+      "route": [
+        {
+          "x": -18.800000000000004,
+          "y": -11.900000000000006,
+          "z": 0
+        },
+        {
+          "x": -18.800000000000004,
+          "y": -11.900000000000006,
+          "z": 0
+        },
+        {
+          "x": -18.800000000000004,
+          "y": -11.900000000000006,
+          "z": 1
+        },
+        {
+          "x": -18.800000000000004,
+          "y": -11.900000000000006,
+          "z": 1
+        }
+      ],
+      "traceThickness": 0.15,
+      "viaDiameter": 0.45,
+      "vias": [
+        {
+          "x": -18.800000000000004,
+          "y": -11.900000000000006
+        }
+      ],
+      "rootConnectionName": "source_trace_11"
+    }
+  ],
+  "totalStepsPerNode": 20,
+  "nodeAssignmentMargin": 0.2
+}
