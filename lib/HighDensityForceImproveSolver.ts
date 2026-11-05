@@ -510,6 +510,11 @@ const buildMutableRoutes = (
       if (!point) continue
       const isTopologyPort =
         (index === 0 || index === route.route.length - 1) &&
+        route.vias.some(
+          (via) =>
+            Math.abs(via.x - point.x) <= POSITION_EPSILON &&
+            Math.abs(via.y - point.y) <= POSITION_EPSILON,
+        ) &&
         fixedPortPoints.some(
           (port) =>
             port.z === point.z &&
@@ -1971,6 +1976,7 @@ export class HighDensityForceImproveSolver extends BaseSolver {
   readonly colorMap: Record<string, string>
   readonly totalStepsPerNode: number
   readonly nodeAssignmentMargin: number
+  readonly preserveTopologyPortAnchors: boolean
 
   improvedRoutesByIndex = new Map<number, HighDensityRoute>()
   activeSampleIndex = 0
@@ -1981,6 +1987,8 @@ export class HighDensityForceImproveSolver extends BaseSolver {
     hdRoutes: HighDensityRoute[]
     totalStepsPerNode?: number
     nodeAssignmentMargin?: number
+    /** Keep shared topology ports attached while endpoint vias fit inside the node. */
+    preserveTopologyPortAnchors?: boolean
     colorMap?: Record<string, string>
   }) {
     super()
@@ -1991,6 +1999,7 @@ export class HighDensityForceImproveSolver extends BaseSolver {
       params.totalStepsPerNode ?? DEFAULT_TOTAL_STEPS_PER_NODE
     this.nodeAssignmentMargin =
       params.nodeAssignmentMargin ?? DEFAULT_ASSIGNMENT_MARGIN
+    this.preserveTopologyPortAnchors = params.preserveTopologyPortAnchors ?? false
 
     const routeIndexesByNode = new Map<number, number[]>()
     for (let i = 0; i < params.hdRoutes.length; i++) {
@@ -2033,6 +2042,7 @@ export class HighDensityForceImproveSolver extends BaseSolver {
         hdRoutes: this.originalHdRoutes,
         totalStepsPerNode: this.totalStepsPerNode,
         nodeAssignmentMargin: this.nodeAssignmentMargin,
+        preserveTopologyPortAnchors: this.preserveTopologyPortAnchors,
         colorMap: this.colorMap,
       },
     ] as const
@@ -2056,7 +2066,9 @@ export class HighDensityForceImproveSolver extends BaseSolver {
       this.totalStepsPerNode,
       {
         includeForceVectors: true,
-        fixedPortPoints: sampleEntry.node.portPoints,
+        fixedPortPoints: this.preserveTopologyPortAnchors
+          ? sampleEntry.node.portPoints
+          : undefined,
       },
     )
     applyProjectionClearance(sampleEntry.node, baselineResult.routes)
@@ -2080,7 +2092,9 @@ export class HighDensityForceImproveSolver extends BaseSolver {
             this.totalStepsPerNode,
             {
               includeForceVectors: true,
-              fixedPortPoints: sampleEntry.node.portPoints,
+              fixedPortPoints: this.preserveTopologyPortAnchors
+                ? sampleEntry.node.portPoints
+                : undefined,
             },
           )
     if (result !== baselineResult) {
