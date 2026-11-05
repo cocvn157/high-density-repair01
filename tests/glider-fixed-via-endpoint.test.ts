@@ -5,7 +5,10 @@ import fixture from "./fixtures/glider-fixed-via-endpoint.json"
 test("Glider DDR ADDR6 escape via", async (): Promise<void> => {
   // Exact node input from Glider's native TSX/core remaining-signal phase.
   // Its boundary via joins top and inner1 fragments in neighboring nodes.
-  const solver = new HighDensityForceImproveSolver(structuredClone(fixture))
+  const solver = new HighDensityForceImproveSolver({
+    ...structuredClone(fixture),
+    preserveTopologyPortAnchors: true,
+  })
   solver.solve()
   expect(solver.solved).toBe(true)
   expect(solver.failed).toBe(false)
